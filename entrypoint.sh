@@ -1,3 +1,3 @@
 #!/bin/sh
-echo "🚀 Uruchamiam KDB.AI na porcie 8082..."
-exec kdbai server --port 8082
+echo "🚀 Uruchamiam KDB.AI..."
+exec /opt/kx/q/start-kdbai.sh
