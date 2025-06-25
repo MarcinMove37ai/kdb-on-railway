@@ -1,13 +1,11 @@
 #!/bin/sh
 set -e
 
-# Ten skrypt uruchamia się jako root.
-# Nadajemy użytkownikowi 'nobody' prawa do zapisu na podłączonym wolumenie.
 echo "Fixing volume permissions..."
 chown -R nobody:nobody /tmp/kx/data
 echo "Permissions fixed."
 
-# Przekazujemy kontrolę do oryginalnego skryptu startowego,
-# ale uruchamiamy go już jako użytkownik 'nobody'.
-# 'exec' zastępuje obecny proces, co jest dobrą praktyką.
-exec su-exec nobody "$@"
+# Używamy 'su' zamiast 'su-exec', ponieważ 'su' jest zawsze dostępne.
+# 'exec' na początku zastępuje proces skryptu procesem 'su', co jest dobrą praktyką.
+# 'su -s /bin/sh nobody -c 'exec "$@"'': Uruchamia polecenie przekazane jako argumenty ("$@") jako użytkownik 'nobody'.
+exec su -s /bin/sh nobody -c 'exec "$@"'
