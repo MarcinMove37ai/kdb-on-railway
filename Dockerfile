@@ -8,8 +8,8 @@ USER root
 COPY entrypoint-wrapper.sh /usr/local/bin/entrypoint-wrapper.sh
 COPY entrypoint.sh /entrypoint.sh
 
-# Nadanie uprawnień do uruchamiania
+# Nadaj uprawnienia do uruchamiania
 RUN chmod +x /usr/local/bin/entrypoint-wrapper.sh /entrypoint.sh
 
-# Ustaw ENTRYPOINT z wrapperem i uruchomieniem serwera
-ENTRYPOINT ["/usr/local/bin/entrypoint-wrapper.sh", "/bin/sh", "/entrypoint.sh"]
+# Ustaw ENTRYPOINT – tylko wrapper bez dodatkowych argumentów
+ENTRYPOINT ["/usr/local/bin/entrypoint-wrapper.sh"]
