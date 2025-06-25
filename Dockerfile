@@ -1,16 +1,15 @@
-# Etap 1: Użyj obrazu, który umieściłeś w swoim rejestrze ghcr.io
+# Użyj oficjalnej bazy z zainstalowanym KDB.AI
 FROM ghcr.io/marcinmove37ai/kdb-on-railway:latest
 
-# Etap 2: Skonfiguruj skrypt pośredniczący (wrapper)
-# Musimy na chwilę przełączyć się na użytkownika root, aby móc kopiować pliki i zmieniać uprawnienia
+# Przełącz się na użytkownika root, aby ustawić uprawnienia
 USER root
 
-# Skopiuj nasz nowy skrypt do obrazu
+# Skopiuj wrapper i skrypt startowy
 COPY entrypoint-wrapper.sh /usr/local/bin/entrypoint-wrapper.sh
+COPY entrypoint.sh /entrypoint.sh
 
-# Nadaj mu uprawnienia do uruchamiania
-RUN chmod +x /usr/local/bin/entrypoint-wrapper.sh
+# Nadanie uprawnień do uruchamiania
+RUN chmod +x /usr/local/bin/entrypoint-wrapper.sh /entrypoint.sh
 
-# Ustaw nasz skrypt jako nowy punkt wejścia (Entrypoint).
-# Oryginalny entrypoint ("/bin/bash", "/entrypoint.sh") zostanie przekazany do niego jako argumenty ("$@").
-ENTRYPOINT ["/usr/local/bin/entrypoint-wrapper.sh", "/bin/bash", "/entrypoint.sh"]
+# Ustaw ENTRYPOINT z wrapperem i uruchomieniem serwera
+ENTRYPOINT ["/usr/local/bin/entrypoint-wrapper.sh", "/bin/sh", "/entrypoint.sh"]
