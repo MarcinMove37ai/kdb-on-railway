@@ -1,1 +1,1 @@
-FROM portal.dl.kx.com/kdbai-db
+FROM ghcr.io/marcinmove37ai/kdb-on-railway:latest
